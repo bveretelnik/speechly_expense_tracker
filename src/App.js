@@ -2,6 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 
 import useStyles from "./styles";
+import Details from "./components/Details/Details";
 
 const App = () => {
   const classes = useStyles();
@@ -17,16 +18,16 @@ const App = () => {
         style={{ height: "100vh" }}
       >
         <Grid item xs={12} sm={4} className={classes.mobile}>
-          {/* Details */}
+          <Details title="Income" />
         </Grid>
-        <Grid ref={main} item xs={12} sm={3} className={classes.main}>
+        <Grid item xs={12} sm={3} className={classes.main}>
           {/* Main */}
         </Grid>
         <Grid item xs={12} sm={4} className={classes.desktop}>
-          {/* Details */}
+          <Details title="Income" />
         </Grid>
         <Grid item xs={12} sm={4} className={classes.last}>
-          {/* <Details title="Expense" /> */}
+          <Details title="Expense" />
         </Grid>
       </Grid>
     </div>
