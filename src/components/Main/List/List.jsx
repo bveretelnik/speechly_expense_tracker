@@ -20,14 +20,14 @@ export default function List() {
       type: "Income",
       category: "salary",
       amount: 100,
-      data: new Date(),
+      date: new Date(),
     },
     {
       id: 2,
       type: "Expense",
       category: "Office",
       amount: 500,
-      data: new Date(),
+      date: new Date(),
     },
     {
       id: 3,
@@ -62,8 +62,8 @@ export default function List() {
               </Avatar>
             </ListItemAvatar>
             <ListItemText
-              primary={transition.category}
-              secondary={`$${transition.amount} - ${transition.date}`}
+              primary={transaction.category}
+              secondary={`$${transaction.amount} - ${transaction.date}`}
             />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="delete">
