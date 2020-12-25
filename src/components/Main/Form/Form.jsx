@@ -34,14 +34,17 @@ export default function Form() {
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
-          <Select>{/* ...... */}</Select>
+          <Select>
+            <MenuItem value="Bussiness">Bussiness</MenuItem>
+            <MenuItem value="Salary">Salary</MenuItem>
+          </Select>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
-        <TextField />
+        <TextField type="number" label="Amount" />
       </Grid>
       <Grid item xs={6}>
-        <TextField />
+        <TextField fullWidth label="Date" type="date" />
       </Grid>
       <Grid>
         <Button
