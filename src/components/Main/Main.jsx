@@ -17,7 +17,10 @@ export default function Main() {
 
   return (
     <Card className={classes.root}>
-      <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
+      <CardHeader
+        title="Expense Tracker"
+        subheader="Powered by @b_veretelnik"
+      />
       <CardContent>
         <Typography align="center" variant="h5">
           Total Balance $balance
