@@ -33,7 +33,7 @@ export default function Form() {
   const classes = useStyles();
   const { addTransaction } = useContext(ExpenseContext);
   const [formData, setFormData] = useState(initialState);
-  const { segment } = useSpeechContext(false);
+  const { segment } = useSpeechContext();
 
   const createTransaction = () => {
     addTransaction({
