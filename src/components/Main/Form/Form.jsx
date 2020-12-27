@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   TextField,
   Typography,
@@ -10,6 +10,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import { v4 as uuidv4 } from "uuid";
+
+import { useSpeechContext } from "@speechly/react-client";
 
 import Snackbar from "../../Snackbar/Snackbar";
 import useStyles from "./styles";
@@ -30,34 +32,91 @@ const initialState = {
 export default function Form() {
   const classes = useStyles();
   const { addTransaction } = useContext(ExpenseContext);
-  const [formatData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(initialState);
+  const { segment } = useSpeechContext(false);
 
   const createTransaction = () => {
     addTransaction({
-      ...formatData,
-      amount: Number(formatData.amount),
+      ...formData,
+      amount: Number(formData.amount),
       id: uuidv4(),
     });
     setFormData(initialState);
   };
+
+  useEffect(() => {
+    if (segment) {
+      if (segment.intent.intent === "add_expense") {
+        setFormData({ ...formData, type: "Expense" });
+      } else if (segment.intent.intent === "add_income") {
+        setFormData({ ...formData, type: "Income" });
+      } else if (
+        segment.isFinal &&
+        segment.intent.intent === "create_transaction"
+      ) {
+        return createTransaction();
+      } else if (
+        segment.isFinal &&
+        segment.intent.intent === "cancel_transaction"
+      ) {
+        return createTransaction(initialState);
+      }
+
+      segment.entities.forEach((s) => {
+        const category = `${s.value.charAt(0)}${s.value
+          .slice(1)
+          .toLowerCase()}`;
+
+        switch (s.type) {
+          case "amount":
+            setFormData({ ...formData, amount: s.value });
+            break;
+          case "category":
+            if (incomeCategories.map((iC) => iC.type).includes(category)) {
+              setFormData({ ...formData, type: "Income", category });
+            } else if (
+              expenseCategories.map((iC) => iC.type).includes(category)
+            ) {
+              setFormData({ ...formData, type: "Expense", category });
+            }
+            break;
+          case "date":
+            setFormData({ ...formData, date: s.value });
+            break;
+          default:
+            break;
+        }
+      });
+      if (
+        segment.isFinal && formData.type === "Income"
+          ? incomeCategories
+          : expenseCategories
+      ) {
+        createTransaction();
+      }
+    }
+  }, [segment]);
+
   const selectedCategories =
-    formatData.type === "Income" ? incomeCategories : expenseCategories;
+    formData.type === "Income" ? incomeCategories : expenseCategories;
   return (
     <Grid container spacing={2}>
       <Snackbar />
       <Grid item xs={12}>
         <Typography align="center" variant="subtitle2" gutterBottom>
-          <div></div>
+          {segment ? (
+            <div className="segment">
+              {segment.words.map((w) => w.value).join(" ")}
+            </div>
+          ) : null}
         </Typography>
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Type</InputLabel>
           <Select
-            value={formatData.type}
-            onChange={(e) =>
-              setFormData({ ...formatData, type: e.target.value })
-            }
+            value={formData.type}
+            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
           >
             <MenuItem value="Income">Income</MenuItem>
             <MenuItem value="Expense">Expense</MenuItem>
@@ -68,9 +127,9 @@ export default function Form() {
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
           <Select
-            value={formatData.category}
+            value={formData.category}
             onChange={(e) =>
-              setFormData({ ...formatData, category: e.target.value })
+              setFormData({ ...formData, category: e.target.value })
             }
           >
             {selectedCategories.map((c) => (
@@ -86,10 +145,8 @@ export default function Form() {
           fullWidth
           type="number"
           label="Amount"
-          value={formatData.amount}
-          onChange={(e) =>
-            setFormData({ ...formatData, amount: e.target.value })
-          }
+          value={formData.amount}
+          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
         />
       </Grid>
       <Grid item xs={6}>
@@ -97,9 +154,9 @@ export default function Form() {
           fullWidth
           label="Date"
           type="date"
-          value={formatData.date}
+          value={formData.date}
           onChange={(e) =>
-            setFormData({ ...formatData, date: formatDate(e.target.value) })
+            setFormData({ ...formData, date: formatDate(e.target.value) })
           }
         />
       </Grid>
