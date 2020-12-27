@@ -59,7 +59,7 @@ export default function Form() {
         segment.isFinal &&
         segment.intent.intent === "cancel_transaction"
       ) {
-        return createTransaction(initialState);
+        return setFormData(initialState);
       }
 
       segment.entities.forEach((s) => {
@@ -88,9 +88,11 @@ export default function Form() {
         }
       });
       if (
-        segment.isFinal && formData.type === "Income"
-          ? incomeCategories
-          : expenseCategories
+        segment.isFinal &&
+        formData.amount &&
+        formData.category &&
+        formData.date &&
+        formData.type
       ) {
         createTransaction();
       }
