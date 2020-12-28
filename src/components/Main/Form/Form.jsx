@@ -22,6 +22,9 @@ import {
   expenseCategories,
 } from "../../../constants/categories";
 
+import { fb } from "../../../firebase";
+import firebase from "firebase/app";
+
 const initialState = {
   amount: "",
   category: "",
@@ -34,6 +37,10 @@ export default function Form() {
   const { addTransaction } = useContext(ExpenseContext);
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
+
+  const addTransaction = (e) => {
+    e.preventDefault();
+  };
 
   const createTransaction = () => {
     addTransaction({
