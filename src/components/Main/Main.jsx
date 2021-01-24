@@ -8,6 +8,8 @@ import {
   Divider,
 } from "@material-ui/core";
 
+import InfoCard from "../InfoCard";
+
 import useStyles from "./styles";
 import Form from "./Form/Form";
 import List from "./List/List";
@@ -17,7 +19,10 @@ export default function Main() {
 
   return (
     <Card className={classes.root}>
-      <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
+      <CardHeader
+        title="Expense Tracker"
+        subheader="Powered by @b_veretelnik"
+      />
       <CardContent>
         <Typography align="center" variant="h5">
           Total Balance $balance
@@ -26,7 +31,7 @@ export default function Main() {
           variant="subtitle1"
           style={{ lineHeight: "1.5em", marginTop: "20px" }}
         >
-          {/* <InfoCard /> */}
+          <InfoCard />
         </Typography>
         <Divider className={classes.divider} />
         <Form />
