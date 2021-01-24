@@ -40,6 +40,8 @@ export default function Form() {
   const [open, setOpen] = useState(false);
 
   const createTransaction = () => {
+    if (Number.isNaN(Number(formData.amount)) || !formData.date.includes("-"))
+      return;
     addTransaction({
       ...formData,
       amount: Number(formData.amount),

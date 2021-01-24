@@ -4,7 +4,7 @@ import { ExpenseContext } from "./expenseContext";
 import expenseReducer from "./expenseReducer";
 
 export default function ExpenceState({ children }) {
-  const initialState = [];
+  const initialState = JSON.parse(localStorage.getItem("transactions")) || [];
   const [transactions, dispatch] = useReducer(expenseReducer, initialState);
 
   const addTransaction = (transaction) => {
