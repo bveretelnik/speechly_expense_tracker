@@ -22,8 +22,8 @@ import {
   expenseCategories,
 } from "../../../constants/categories";
 
-import { fb } from "../../../firebase";
-import firebase from "firebase/app";
+// import { fb } from "../../../firebase";
+// import firebase from "firebase/app";
 
 const initialState = {
   amount: "",
@@ -37,14 +37,7 @@ export default function Form() {
   const { addTransaction } = useContext(ExpenseContext);
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
-
-<<<<<<< HEAD
-  const addTransactions = (e) => {
-=======
-  const addTransaction = (e) => {
->>>>>>> e198140cc088543b5860261507a45b130292f1ab
-    e.preventDefault();
-  };
+  const [open, setOpen] = useState(false);
 
   const createTransaction = () => {
     addTransaction({
@@ -52,6 +45,7 @@ export default function Form() {
       amount: Number(formData.amount),
       id: uuidv4(),
     });
+    setOpen(true);
     setFormData(initialState);
   };
 
@@ -114,7 +108,7 @@ export default function Form() {
     formData.type === "Income" ? incomeCategories : expenseCategories;
   return (
     <Grid container spacing={2}>
-      <Snackbar />
+      <Snackbar open={open} setOpen={setOpen} />
       <Grid item xs={12}>
         <Typography align="center" variant="subtitle2" gutterBottom>
           {segment ? (

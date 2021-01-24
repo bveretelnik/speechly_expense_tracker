@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardHeader,
@@ -8,6 +8,7 @@ import {
   Divider,
 } from "@material-ui/core";
 
+import { ExpenseContext } from "../context/ExpenseReducer/expenseContext.js";
 import InfoCard from "../InfoCard";
 
 import useStyles from "./styles";
@@ -16,6 +17,7 @@ import List from "./List/List";
 
 export default function Main() {
   const classes = useStyles();
+  const { balance } = useContext(ExpenseContext);
 
   return (
     <Card className={classes.root}>
@@ -25,7 +27,7 @@ export default function Main() {
       />
       <CardContent>
         <Typography align="center" variant="h5">
-          Total Balance $balance
+          Total Balance ${balance}
         </Typography>
         <Typography
           variant="subtitle1"
