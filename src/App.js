@@ -24,13 +24,6 @@ const App = () => {
       executeScroll();
     }
   }, [speechState]);
-  const func = () => {
-    var context = new AudioContext();
-
-    context.resume().then(() => {
-      console.log("Playback resumes successfuly");
-    });
-  };
 
   return (
     <div>
@@ -54,7 +47,6 @@ const App = () => {
         <Grid item xs={12} sm={4} className={classes.last}>
           <Details title="Expense" />
         </Grid>
-        <button onClick={func}>test</button>
         <PushToTalkButtonContainer>
           <PushToTalkButton />
           <ErrorPanel />
