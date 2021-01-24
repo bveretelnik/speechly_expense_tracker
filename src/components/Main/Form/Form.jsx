@@ -38,7 +38,11 @@ export default function Form() {
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
 
+<<<<<<< HEAD
   const addTransactions = (e) => {
+=======
+  const addTransaction = (e) => {
+>>>>>>> e198140cc088543b5860261507a45b130292f1ab
     e.preventDefault();
   };
 
