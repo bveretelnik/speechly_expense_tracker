@@ -38,7 +38,7 @@ export default function Form() {
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
 
-  const addTransaction = (e) => {
+  const addTransactions = (e) => {
     e.preventDefault();
   };
 
